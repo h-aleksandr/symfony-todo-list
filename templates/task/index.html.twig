@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All Tasks{% endblock %}
+
+{% block body %}
+    <br>
+    <hr>
+    <hr>
+
+    <h1>All tasks</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Task</th>
+                <th>Completed</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td>{{ task.task }}</td>
+                <td>{{ task.completed ? '&#9989;' : 'No'}}</td>
+                <td>
+                    {# <a href="{{ path('task_show', {'id': task.id}) }}">show</a> #}
+                    
+                    <a class="btn btn-warning" href="{{ path('task_edit', {'id': task.id}) }}">edit &#9997;</a>
+                    
+                    {# <a class="btn btn-danger" href="{{ path('task_delete', {'id': task.id}) }}">delete &#10060;</a> #}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-primary btn-block" href="{{ path('task_new') }}">Create new</a>
+
+{% endblock %}

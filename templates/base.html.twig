@@ -2,9 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
+        <title>{% block title %}{% endblock %}</title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -24,22 +22,21 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand active" href="{{ path('home') }}">{{ 'header.logo' |trans }}</a>
+                    <a class="navbar-brand active" href="{{path('task_index')}}">TODO List</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><a href="#">SOME</a></li>
-                        <li><a href="#">SOME</a></li>
+                        {# <li><a href="#">SOME</a></li> #}
+                        {# <li><a href="#">SOME</a></li> #}
                        <li class="dropdown">
-                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <span class="caret"></span></a>
                            <ul class="dropdown-menu" role="menu">
-                               <li><a href="">SOME</a></li>
+                               <li><a href="{{path('task_completed')}}">completed</a></li>
                                <li class="divider"></li>
-                               <li><a href="">SOME</a></li>
+                               <li><a href="{{path('task_uncompleted')}}">uncompleted</a></li>
                                <li class="divider"></li>
-                               <li><a href="#">SOME</a></li>
                            </ul>
                        </li>
                     </ul>
