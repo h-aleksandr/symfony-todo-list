@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <link rel="stylesheet" href="{{ asset('./assets/css/style.css') }}">
+        {% endblock %}
+
+    </head>
+    <body id="bd">
+    {% block navbar %}
+        <nav class="navbar navbar-default navbar-inverse" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand active" href="{{ path('home') }}">{{ 'header.logo' |trans }}</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">SOME</a></li>
+                        <li><a href="#">SOME</a></li>
+                       <li class="dropdown">
+                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                           <ul class="dropdown-menu" role="menu">
+                               <li><a href="">SOME</a></li>
+                               <li class="divider"></li>
+                               <li><a href="">SOME</a></li>
+                               <li class="divider"></li>
+                               <li><a href="#">SOME</a></li>
+                           </ul>
+                       </li>
+                    </ul>
+                    {# <ul class="nav navbar-nav navbar-right">
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <span><a href="{{ path('admin') }}">{{ 'header.admin.panel' | trans }}</a> </span>
+                        {% endif %}
+                        {% if is_granted('ROLE_USER') %}
+                        <span>{{ app.user.email }}</span>
+                        {% endif %}
+                    </ul> #}
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    {% endblock %}
+
+    {% block container %}
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-9 col-lg-push-3">
+
+                        {% block body %}
+                        {% endblock %}
+
+                    </div>
+
+                    <div class="col-lg-3 col-lg-pull-9">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+    {% endblock %}
+
+    {% block javascripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% endblock %}
+    </body>
+</html>
