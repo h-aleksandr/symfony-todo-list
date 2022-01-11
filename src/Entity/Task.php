@@ -19,6 +19,9 @@ class Task
     #[ORM\Column(type: 'boolean')]
     private $completed = false;
 
+    #[ORM\Column(type: 'datetime')]
+    private $dueDate;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Task
     public function setCompleted(bool $completed): self
     {
         $this->completed = $completed;
+
+        return $this;
+    }
+
+    public function getDueDate(): ?\DateTimeInterface
+    {
+        return $this->dueDate;
+    }
+
+    public function setDueDate(\DateTimeInterface $dueDate): self
+    {
+        $this->dueDate = $dueDate;
 
         return $this;
     }

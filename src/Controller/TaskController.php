@@ -10,13 +10,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
-#[Route('/')]
+#[Route('/task')]
 class TaskController extends AbstractController
 {
     #[Route('/', name: 'task_index', methods: ['GET', 'POST'])]
     public function index(TaskRepository $taskRepository): Response
-    {   
+    {
         return $this->render('task/index.html.twig', [
             'tasks' => $taskRepository->findAll(),
         ]);
@@ -49,7 +50,7 @@ class TaskController extends AbstractController
             $entityManager->persist($task);
             $entityManager->flush();
 
-            return $this->redirectToRoute('task_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('task/new.html.twig', [
@@ -75,7 +76,7 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('task_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('task/edit.html.twig', [
@@ -92,6 +93,26 @@ class TaskController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('task_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+    }
+
+     #[Route('/search/task', name: 'search_task', methods: ['GET', 'POST'])]
+    public function searchByDate(Request $request, Task $task, EntityManagerInterface $entityManager): Response
+    {
+         if ($request->request->get('data')) {     
+              $arr = ['output' => '!!!'];
+        return new JsonResponse($arr);
+    }  
+        //  $tasks = $taskRepository->createQueryBuilder('d')
+        //     ->where('d.task = :dueDate')
+        //     ->setParameter('dueDate', 'data')
+        //     ->getQuery()
+        //     ->getResult()
+        // ;
+        // return new JsonResponse(['tasks' => $tasks]);
+        // return new JsonResponse(['view' => $this->render('home/index.html.twig')], ['tasks' => $tasks]);
+        return $this->render('home/index.html.twig', [
+            'tasks_date' => $tasks,
+        ]);
     }
 }

@@ -13,6 +13,7 @@
             <tr>
                 <th>Id</th>
                 <th>Task</th>
+                <th>DueDate</th>
                 <th>Completed</th>
                 <th>actions</th>
             </tr>
@@ -22,6 +23,7 @@
             <tr>
                 <td>{{ task.id }}</td>
                 <td>{{ task.task }}</td>
+                <td>{{ task.dueDate |format_date() }}</td>
                 <td>{{ task.completed ? '&#9989;' : 'No'}}</td>
                 <td>
                     {# <a href="{{ path('task_show', {'id': task.id}) }}">show</a> #}
