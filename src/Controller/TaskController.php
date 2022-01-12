@@ -96,23 +96,4 @@ class TaskController extends AbstractController
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
     }
 
-     #[Route('/search/task', name: 'search_task', methods: ['GET', 'POST'])]
-    public function searchByDate(Request $request, Task $task, EntityManagerInterface $entityManager): Response
-    {
-         if ($request->request->get('data')) {     
-              $arr = ['output' => '!!!'];
-        return new JsonResponse($arr);
-    }  
-        //  $tasks = $taskRepository->createQueryBuilder('d')
-        //     ->where('d.task = :dueDate')
-        //     ->setParameter('dueDate', 'data')
-        //     ->getQuery()
-        //     ->getResult()
-        // ;
-        // return new JsonResponse(['tasks' => $tasks]);
-        // return new JsonResponse(['view' => $this->render('home/index.html.twig')], ['tasks' => $tasks]);
-        return $this->render('home/index.html.twig', [
-            'tasks_date' => $tasks,
-        ]);
-    }
 }

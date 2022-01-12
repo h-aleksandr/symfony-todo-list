@@ -13,20 +13,23 @@ class TaskType extends AbstractType
     {
         $builder
             ->add('task')
-            ->add('dueDate',
-                null,
-                [
-					'placeholder' => [
-        				'year' => 'Year',
-						'month' => 'Month',
-						'day' => 'Day',
-        				// 'hour' => 'Hour',
-						// 'minute' => 'Minute'
-                    ],
-					'widget' => 'choice',
-					'years' => range(2020,2025)
-                ]
-            )
+            // ->add('dueDate',
+            //     null,
+            //     [
+            //         // 'attr' => [
+            //         //     'id' => 'datepicker',
+            //         // ],
+			// 		'placeholder' => [
+        	// 			'year' => 'Year',
+			// 			'month' => 'Month',
+			// 			'day' => 'Day',
+        	// 			// 'hour' => 'Hour',
+			// 			// 'minute' => 'Minute'
+            //         ],
+			// 		'widget' => 'choice',
+			// 		'years' => range(2020,2025)
+            //     ]
+            // )
             ->add('completed')
         ;
     }

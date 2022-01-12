@@ -1,4 +1,26 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-success">{{ button_label|default('Save') }} &#9998;</button>
-{{ form_end(form) }}
+    {# {{ form_widget(form) }} #}
+
+
+<form action="{{ path('task_new') }}">
+    {{ form_start(form) }}
+        {{ form_start(form) }}
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(form) }}
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.task) }}
+            </div>
+            <label for="datepicker">dueDate</label>
+            <input class="" id="datepicker">
+                {# {{ form_row(form.dueDate) }} #}
+            </input>
+            <div class="">
+                {{ form_row(form.completed) }}
+            </div>
+        </div>
+    {{ form_end(form) }}
+        <button class="btn btn-success">{{ button_label|default('Save') }} &#9998;</button>
+    {{ form_end(form) }}
+</form>

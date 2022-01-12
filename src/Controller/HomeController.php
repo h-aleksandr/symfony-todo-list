@@ -21,6 +21,25 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'tasks' => $taskRepository->findAll(),
             'today' => $today,
+            'tasks_other' => $taskRepository->findAll(),
         ]);
     }
+
+    
+      #[Route('/', name: 'search_task', methods: ['GET', 'POST'])]
+    public function searchByDate(Request $request, TaskRepository $taskRepository): Response
+    {
+        if ($request->getContent()){
+
+            $date = $request->getContent();
+
+            // $task = $taskRepository->findByDueDate($date);
+            
+            // return new JsonResponse(['task' => $task]);
+            return $date;
+        } 
+            return $this->render('home/index.html.twig',);
+        
+    }
+   
 }
