@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Edit Task</h1>
     
-    <form action="{{ path ('task_edit') }}">
+    <form if="form" action="{{ path ('task_edit') }}">
 
     {{ include('task/_form.html.twig', {'button_label': 'Update'}) }}
 

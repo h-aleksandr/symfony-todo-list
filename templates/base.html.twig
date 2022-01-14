@@ -6,7 +6,6 @@
         {% block stylesheets %}
         
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-           
             <!-- jQueryUI -->
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
             <script src="//code.jquery.com/jquery-1.12.4.js"></script>
@@ -83,36 +82,90 @@
 
                 </div>
                 <script>
-                       // const controller = "{{ path('search_task') }}";
-                        
-                        $( "#datepicker" ).datepicker();
-                
-                            $('button').click(function(e) {
-                                e.preventDefault();
-                                    let data = $("#datepicker").val(); 
-                                    console.log(data);
-                                
-                                ajax(data);
-                            });
+                            ////////////////////////////////////
+                                ////////////////////////////
+                                    ////////////////////
+                                        ///////////
+                    
+                $(".datepicker").datepicker();
 
-                            function ajax(data){
-                                $.ajax({
-                                    method: "POST",
-                                    url: $(this).attr('action'),
-                                    cache: false,
-                                    data: {"data": data},
-                                    dataType: 'json',
-                                    async: true,
-                                     error: function(){
-                                        alert("something плохо");
-                                    },
-                                    success: function(data) {
-                                        alert("плюс-минус");
-                                        $("div#formSuccess").html(data);
-                                    }   
-                            });
-                        }
-            </script>
+                getTasks();
+                contentToggle();
+        
+                $('.submitForm').click(function(e) {
+                    e.preventDefault();
+                        
+                    console.log($(form).attr('action'));
+                    console.log($(form).serialize());
+
+                    setTimeout(function(){$(form).trigger('reset')});
+
+                    submitFormAjax($(this).parent('form'), redirect, errorMessage);
+                });
+
+                function getTasks() {
+                     $.ajax({
+                    method: "GET",
+                    url: 'http://www.mocky.io/v2/5944e07213000038025b6f30', //"{{ path('task_index') }}",
+                    cache: false,
+                    dataType: 'json',
+                    success: function (result) {
+                    console.log("success result: " + result);
+                    },
+                    error: function(result) {
+                        console.log("error result: " + result);
+                    }                       
+                });
+                }
+                
+                function contentToggle() {
+                     $('.content_toggle').click(function(){
+                    $('.content_block').slideToggle(300, function(){
+                        if ($(this).is(':hidden')) {
+                            $('.content_toggle').html('Show form');
+                        } else {
+                            $('.content_toggle').html('Hide form');
+                        }							
+                    });
+                    return false;
+                });
+                }
+
+                function redirect(response) {
+                    if(response.url !== undefined) {
+                        window.location.href = response.url;
+                    }
+                }
+
+                function errorMessage() {
+                    alert('Somethig is wrong...');
+                    //$('#errorForm').append('<p class="alert alert-danger" id="errorForm" role="alert">Somethig is wrong...</p>');
+                }
+
+                function submitFormAjax(form, successCallback, errorCallback){
+                    if(form === undefined) {
+                        return;
+                    } 
+                    if($(form)) {
+                         $.ajax({
+                            method: "POST",
+                            url:$(form).attr('action'),
+                            data: $(form).serialize(),
+                            cache: false,
+                            dataType: 'json',
+                            beforeSend: function() {
+                                $('.submit').button('loading');
+                            },
+                            complete: function() {
+                                $('.submit').button('reset');
+                            },
+                            success: successCallback,
+                            error: errorCallback,
+                       
+                     });
+                    }
+            }
+                </script>
     {% endblock %}
 
     {% block javascripts %}

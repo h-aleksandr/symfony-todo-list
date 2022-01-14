@@ -19,17 +19,30 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
-     public function findByDueDate($value)
+     public function findByDate($value)
     {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.dueDate = :val')
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.dueDate = :val')
             ->setParameter('val', $value)
             // ->orderBy('t.id', 'ASC')
-            // ->setMaxResults(10)
+            ->setMaxResults(8)
             ->getQuery()
             ->getResult()
         ;
     }
+
+     public function findExpired($value)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.dueDate < :val')
+            ->setParameter('val', $value)
+            // ->orderBy('t.id', 'ASC')
+            ->setMaxResults(8)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     
     // /**
     //  * @return Task[] Returns an array of Task objects
