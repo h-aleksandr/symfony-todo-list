@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class HomeController extends BaseController
+class HomeController extends AbstractController
 {
       #[Route('/', name: 'home', methods: ['GET', 'POST'])]
     public function index(TaskRepository $taskRepository): Response
