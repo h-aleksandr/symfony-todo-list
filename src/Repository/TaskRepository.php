@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use DateTime;
 
 /**
  * @method Task|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,28 +21,34 @@ class TaskRepository extends ServiceEntityRepository
     }
 
      public function findByDate($value)
-    {
-        //  $from = new \DateTime($value->format("Y-m-d")." 00:00:00");
-        //  $to   = new \DateTime($value->format("Y-m-d")." 23:59:59");
+    {        
+        // $date = (int)$value->format("Y-m-d H:i:s");
+        // $from = $value->setTime($date, 00, 00, 00);//->format('Y-m-d H:i:s');
+        // $to   = $value->setTime($date, 23, 59, 59);//->format('Y-m-d H:i:s');
+
+        $from = \DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d 00:00:00"));
+        $to = \DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d 23:59:59"));
 
         return $this->createQueryBuilder('t')
-            ->where('t.dueDate between :from AND :to')
-            ->setParameter('from', $value->setTime(00, 00, 00))
-            ->setParameter('to', $value->setTime(23, 59, 59))
+            // ->where('t.dueDate >= :from')    // <<-- it work also
+            // ->andWhere('t.dueDate <= :to')
+            ->where('t.dueDate between :from and :to')
+            ->setParameter('from', $from)
+            ->setParameter('to', $to)
             // ->orderBy('t.id', 'ASC')
             ->setMaxResults(20)
             ->getQuery()
             ->getResult()
         ;
     }
-//'t.dueDate < :val
+
      public function findExpired($value)
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.dueDate < :val')
             ->setParameter('val', $value)
             // ->orderBy('t.id', 'ASC')
-            ->setMaxResults(20)
+            ->setMaxResults(30)
             ->getQuery()
             ->getResult()
         ;

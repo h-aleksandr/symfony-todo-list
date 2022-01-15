@@ -1,25 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}All Tasks{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-      <h4> time the page was loaded: {{today | date('Y:m:d H:i:s')}} </h4>
-      <button class="content_toggle btn-block" href="#">Add task</button>
-        <div class="content_block" style="display: none;">
-            
-            {{ render(path('task_new')) }}
-            
-            <div class="danger" id="errorForm">
-                
-            </div>
-        </div>
-    <hr>
-    <p>
-        <ol id="todo_list">
-        </ol>
-    </p>
-
-     <br><hr><hr><hr>
+      
     <h1>{{ title }}</h1>
     <hr>
 
@@ -60,36 +44,10 @@
         </table>
     {# <a class="btn btn-primary btn-block" href="{{ path('task_new') }}">Create new</a> #}
     </div>
-    
 {% endblock %}
 
 {% block panel %}
-
-    <div class="panel panel-info hidden-xs">
-                            <div class="panel-heading"><div class="sidebar-header"><h3>Search</h3></div></div>
-                            <div class="panel-body">
-                                <form id="form" action="{{ path('task_search') }}">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <input name="date" type="text" id="search_field" class="datepicker form-control input-lg" placeholder="">
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-default btn-lg" type="submit"><i class="glyphicon glyphicon-search submitSearch"></i></button>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                 {# <br><div id="successForm"> #}
-                                    {# {% for task in tasks %}
-                                    <br><div id="successForm">
-                                 {{task.dueDate | date()}}
-                                 </div>
-                                 {% endfor %} #}
-                                 {# </div> #}
-                            </div>
-                        </div>
-
-    <div class="panel panel-info">
+     <div class="panel panel-info">
                             <div class="panel-heading"><div class="sidebar-header"><h3>Expired</h3></div></div>
                             <div class="panel-body">
                                 <ul class="list-group">
@@ -100,7 +58,6 @@
                                             <a href="#">{{task.dueDate | date()}}</a>
                                         </p>                                       
                                                 <a class="btn btn-warning btn-block" href="{{ path('task_edit', {'id': task.id}) }}">edit</a>
-                                                {# <a class="btn btn-danger" href="{{ path('task_delete', {'id': task.id}) }}">delete &#10060;</a> #}
                                         </p> 
                                     {% else %}
                                        <p><b colspan="6">no records found</b></p>
@@ -109,4 +66,8 @@
                                 </ul>
                             </div>
                         </div>
+                            
+                        </div>
+
+                    </div>
 {% endblock %}

@@ -7,7 +7,6 @@ use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-//use App\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,12 +32,13 @@ class TaskController extends AbstractController
     #[Route('/', name: 'task_expired', methods: ['GET', 'POST'])]
     public function expired(TaskRepository $taskRepository): Response
     {
-        $today = new DateTime('today');
-         return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findExpired($today),]);
-        // return $this->render('home/index.html.twig', [
-        //     'tasks' => $taskRepository->findExpired($date),
-        //     'title' => 'task expired',
-        // ] );
+        $today = new \DateTime('today');
+
+        // return new JsonResponse(['url' => $this->generateUrl('home'), 'expired' => $taskRepository->findExpired($today),]);
+        return $this->render('home/index.html.twig', [
+             'expired' => $taskRepository->findExpired($date),
+            'title' => 'task expired',
+        ] );
     }
 
     #[Route('/completed', name: 'task_completed', methods: ['GET'])]
@@ -117,19 +117,6 @@ class TaskController extends AbstractController
         }
 
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
-    }
-
-     #[Route('/', name: 'task_search', methods: ['GET', 'POST'])]
-    public function searchByDate(Request $request, TaskRepository $taskRepository): Response
-    {
-        if ($request){
-
-            $tasks = $taskRepository->findByDate($request);
-            
-             return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' =>  $tasks]);
-        } 
-           return $this->render('home/index.html.twig',);
-        
     }
  
 

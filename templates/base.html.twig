@@ -26,7 +26,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand active" href="{{path('task_today')}}">TODO List</a>
+                    <a class="navbar-brand active" href="{{path('home')}}">TODO List</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -64,23 +64,52 @@
                 <div class="row">
 
                         <div class="col-lg-9 col-lg-push-3">
+    {# <h4> time the page was loaded: {{today | date('Y-m-d H:i:s')}} </h4> #}
+             <button class="content_toggle btn-block" href="#">Add task</button>
+                    <div class="content_block" style="display: none;">
+                        
+                        {{ render(path('task_new')) }}
+                        
+                        <div class="danger" id="errorForm">
+                            
+                        </div>
+                    </div>
+                <hr>
 
-                            {% block body %}
-                            {% endblock %}
+{% block body %}
 
+{% endblock %}
                         </div>
 
                         <div class="col-lg-3 col-lg-pull-9">
-
-                            {% block panel %}
-                            {% endblock %}
-                
-                            
+     <div class="panel panel-info hidden-xs">
+                            <div class="panel-heading"><div class="sidebar-header"><h3>Search</h3></div></div>
+                            <div class="panel-body">
+                                <form id="form" action="{{ path('task_search') }}">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input name="date" type="text" id="search_field" class="datepicker form-control input-lg" placeholder="">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default btn-lg" type="submit"><i class="glyphicon glyphicon-search submitSearch"></i></button>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
 
-                    </div>
+    
+   {% block panel %}
 
+   {% endblock %}
+                    </div>
                 </div>
+
+
+
+
+                
                 <script>
                             ////////////////////////////////////
                                 ////////////////////////////
@@ -107,7 +136,7 @@
                     e.preventDefault();
 
                     setTimeout(function(){$(form).trigger('reset')});
-                    serchTaskAjax($(this).parent('form'), redirect);
+                    serchTaskAjax($(this).parent('form'), redirect, errorMessage);
 
                     console.log($(form).attr('action'));
                     console.log($(form).serialize());
@@ -117,9 +146,10 @@
                 function getTasks() {
                      $.ajax({
                         method: "GET",
-                        url: "{{ path('task_all') }}",
+                        url: "{{ path('home') }}",
                         cache: false,
                         dataType: 'json',
+                        ajax: true,
                         success: function (data) {
                         console.log(data);
                         },
@@ -164,21 +194,21 @@
                             data: $(form).serialize(),
                             cache: false,
                             dataType: 'json',
+                            ajax: true,
                             beforeSend: function() {
-                                $('.submit').button('loading');
+                                $('.submitForm').button('loading');
                             },
                             complete: function() {
-                                $('.submit').button('reset');
+                                $('.submitForm').button('reset');
                             },
-                            success: successCallback,
-                                
+                            success: successCallback,    
                             error: errorCallback,
                        
                         });
                     }
                 }           
 
-                 function serchTaskAjax(form, successCallback){
+                 function serchTaskAjax(form, successCallback, errorCallback){
                     if(form[0] === undefined) {
                         return;
                     } 
@@ -189,18 +219,16 @@
                     if(searchTask) {
                         $.ajax({
                             type: "POST",
-                            url: "{{ path('task_all')}}",
+                            url: "{{ path('task_search')}}",
                             data: data,
-                           // beforeSend: function(html) { 
-                                //$("#results").html('');
-                               // $("#desults_list").show();
-                               // $(".word").html(searchString);
-                        //},
+                           beforeSend: function() {
+                                $('.submitForm').button('loading');
+                            },
+                            complete: function() {
+                                $('.submitForm').button('reset');
+                            },
                             success: successCallback,
-                                //function(html){ 
-                                //$("#desults_list").show();
-                                 //$("#desults_list").append(html);
-                        //}
+                            error: errorCallback,
                         });
                     }
                     return false;

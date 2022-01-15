@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}All Tasks{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
     <br>
     <hr>
     <hr>
 
-    <h1>All tasks</h1>
+    <h1>{{ title }}</h1>
 
     <table class="table">
         <thead>
@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for task in tasks %}
+        {% for task in searched %}
             <tr>
                 <td>{{ task.id }}</td>
                 <td>{{ task.task }}</td>
@@ -41,7 +41,7 @@
         {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-primary btn-block" href="{{ path('task_new') }}">Create new</a>
+    <a class="btn  btn-block" href="{{ path('home') }}"> <<<- back to home page</a>
     
 {% endblock %}
 
