@@ -21,23 +21,27 @@ class TaskRepository extends ServiceEntityRepository
 
      public function findByDate($value)
     {
+        //  $from = new \DateTime($value->format("Y-m-d")." 00:00:00");
+        //  $to   = new \DateTime($value->format("Y-m-d")." 23:59:59");
+
         return $this->createQueryBuilder('t')
-            ->andWhere('t.dueDate = :val')
-            ->setParameter('val', $value)
+            ->where('t.dueDate between :from AND :to')
+            ->setParameter('from', $value->setTime(00, 00, 00))
+            ->setParameter('to', $value->setTime(23, 59, 59))
             // ->orderBy('t.id', 'ASC')
-            ->setMaxResults(8)
+            ->setMaxResults(20)
             ->getQuery()
             ->getResult()
         ;
     }
-
+//'t.dueDate < :val
      public function findExpired($value)
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.dueDate < :val')
             ->setParameter('val', $value)
             // ->orderBy('t.id', 'ASC')
-            ->setMaxResults(8)
+            ->setMaxResults(20)
             ->getQuery()
             ->getResult()
         ;

@@ -26,7 +26,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand active" href="{{path('home')}}">TODO List</a>
+                    <a class="navbar-brand active" href="{{path('task_today')}}">TODO List</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -37,7 +37,7 @@
                        <li class="dropdown">
                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <span class="caret"></span></a>
                            <ul class="dropdown-menu" role="menu">
-                               <li><a href="{{path('task_index')}}">ALL</a></li>
+                               <li><a href="{{path('task_all')}}">ALL</a></li>
                                <li class="divider"></li>
                                <li><a href="{{path('task_completed')}}">COMPLETED</a></li>
                                <li class="divider"></li>
@@ -94,41 +94,52 @@
         
                 $('.submitForm').click(function(e) {
                     e.preventDefault();
+
+                    setTimeout(function(){$(form).trigger('reset')});
+                    submitFormAjax($(this).parent('form'), redirect, errorMessage);
+
                         
                     console.log($(form).attr('action'));
                     console.log($(form).serialize());
+                });
+
+                $('.submitSearsh').click(function(e) {
+                    e.preventDefault();
 
                     setTimeout(function(){$(form).trigger('reset')});
+                    serchTaskAjax($(this).parent('form'), redirect);
 
-                    submitFormAjax($(this).parent('form'), redirect, errorMessage);
+                    console.log($(form).attr('action'));
+                    console.log($(form).serialize());
                 });
+            
 
                 function getTasks() {
                      $.ajax({
-                    method: "GET",
-                    url: 'http://www.mocky.io/v2/5944e07213000038025b6f30', //"{{ path('task_index') }}",
-                    cache: false,
-                    dataType: 'json',
-                    success: function (result) {
-                    console.log("success result: " + result);
-                    },
-                    error: function(result) {
-                        console.log("error result: " + result);
-                    }                       
-                });
+                        method: "GET",
+                        url: "{{ path('task_all') }}",
+                        cache: false,
+                        dataType: 'json',
+                        success: function (data) {
+                        console.log(data);
+                        },
+                        error: function(data) {
+                            console.log("error result: " + data);
+                        }                       
+                    });
                 }
                 
                 function contentToggle() {
-                     $('.content_toggle').click(function(){
+                    $('.content_toggle').click(function(){
                     $('.content_block').slideToggle(300, function(){
                         if ($(this).is(':hidden')) {
-                            $('.content_toggle').html('Show form');
+                            $('.content_toggle').html('Add task');
                         } else {
                             $('.content_toggle').html('Hide form');
                         }							
                     });
                     return false;
-                });
+                 });
                 }
 
                 function redirect(response) {
@@ -143,7 +154,7 @@
                 }
 
                 function submitFormAjax(form, successCallback, errorCallback){
-                    if(form === undefined) {
+                    if(form[0] === undefined) {
                         return;
                     } 
                     if($(form)) {
@@ -160,11 +171,41 @@
                                 $('.submit').button('reset');
                             },
                             success: successCallback,
+                                
                             error: errorCallback,
                        
-                     });
+                        });
                     }
-            }
+                }           
+
+                 function serchTaskAjax(form, successCallback){
+                    if(form[0] === undefined) {
+                        return;
+                    } 
+                     $(".submitSearch").click(function() {
+                    var searchTask = $("#search_field").val();
+                    var data = 'search=' + searchString;
+
+                    if(searchTask) {
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ path('task_all')}}",
+                            data: data,
+                           // beforeSend: function(html) { 
+                                //$("#results").html('');
+                               // $("#desults_list").show();
+                               // $(".word").html(searchString);
+                        //},
+                            success: successCallback,
+                                //function(html){ 
+                                //$("#desults_list").show();
+                                 //$("#desults_list").append(html);
+                        //}
+                        });
+                    }
+                    return false;
+                    });
+                }                         
                 </script>
     {% endblock %}
 

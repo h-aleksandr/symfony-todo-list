@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use DateTime;
 
 class TaskType extends AbstractType
 {
@@ -18,7 +20,7 @@ class TaskType extends AbstractType
                         'class' => 'form-control',
                     ],
             ])
-            ->add('dueDate', null, [
+            ->add('dueDate', DateTimeType::class, [
                     'widget' => 'single_text',
                     'format' => 'm/d/Y',
                     'html5' => false,
@@ -35,8 +37,8 @@ class TaskType extends AbstractType
                     function(?string $dueDate) {
                         return $dueDate ? (new DateTime($dueDate))->format('m/d/Y') : null;
                     },
-                    function(string $dueDate) {
-                        return (new DateTime($dueDate))->setDate(02, 23, 2023);
+                    function(DateTime | string $dueDate) {
+                        return $dueDate->setTime(23, 59, 59);
                     }
                 ));
     }

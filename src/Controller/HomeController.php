@@ -16,16 +16,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HomeController extends AbstractController
 {
-      #[Route('/', name: 'home', methods: ['GET', 'POST'])]
-    public function index(TaskRepository $taskRepository): Response
+    #[Route('/', name: 'task_today', methods: ['GET', 'POST'])]
+    public function showTodayTasks(TaskRepository $taskRepository): Response
     {
-    //      return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findAll(),]
+        $today = new \DateTime();
+        //  return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findAll(),]
     // );
-        $today = new \DateTime('today');
         return $this->render('home/index.html.twig', [
-            'tasks' => $taskRepository->findByDate($today),
+            'tasks' => $taskRepository->findAll(),
+            // 'tasks' => $taskRepository->findByDate($today),
             'title' => 'task today',
-        ] );
+            'today' => $today,
+        ]);
     }
   
 }

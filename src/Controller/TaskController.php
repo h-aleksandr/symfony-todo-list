@@ -17,10 +17,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 #[Route('/task')]
 class TaskController extends AbstractController
 {
-    #[Route('/', name: 'task_index', methods: ['GET', 'POST'])]
-    public function index(TaskRepository $taskRepository): Response
+    #[Route('/', name: 'task_all', methods: ['GET', 'POST'])]
+    public function showAllTasks(TaskRepository $taskRepository): Response
     {
-         return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findAll(), 'title' => 'all task',]);
+        $today = new \DateTime();
+        //  return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findAll(),]
+    // );
+        return $this->render('home/index.html.twig', [
+            'tasks' => $taskRepository->findAll(),
+            // 'tasks' => $taskRepository->findByDate($today),
+            'title' => 'all tasks',
+        ]);
     }
 
     #[Route('/', name: 'task_expired', methods: ['GET', 'POST'])]
@@ -64,10 +71,10 @@ class TaskController extends AbstractController
             $entityManager->persist($task);
             $entityManager->flush();
 
-            // return new JsonResponse(['url' => $this->generateUrl('home'),]);
+            return new JsonResponse(['url' => $this->generateUrl('home'),]);
         }
 
-        //    return new JsonResponse(['url' => $this->generateUrl('home'), 'error' => 'failed to submit form data']);
+        //   return new JsonResponse(['url' => $this->generateUrl('home'), 'error' => 'failed to submit form data']);
 
         return $this->renderForm('task/_form.html.twig', [
             'task' => $task,
@@ -112,12 +119,12 @@ class TaskController extends AbstractController
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
     }
 
-     #[Route('/', name: 'search_task', methods: ['GET', 'POST'])]
+     #[Route('/', name: 'task_search', methods: ['GET', 'POST'])]
     public function searchByDate(Request $request, TaskRepository $taskRepository): Response
     {
         if ($request){
 
-            $tasks = $taskRepository->findByDate($request['date']);
+            $tasks = $taskRepository->findByDate($request);
             
              return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' =>  $tasks]);
         } 
