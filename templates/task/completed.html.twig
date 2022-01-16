@@ -3,15 +3,13 @@
 {% block title %}Completed{% endblock %}
 
 {% block body %}
-    <br>
+<div id="content">
+    <h1> completed tasks</h1>
     <hr>
-    <hr>
-
-    <h1>Completed tasks</h1>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                {# <th>Id</th> #}
                 <th>Task</th>
                 <th>DueDate</th>
                 <th>Completed</th>
@@ -19,27 +17,31 @@
             </tr>
         </thead>
         <tbody>
-        {% for task in tasks_completed %}
-            <tr>
-                <td>{{ task.id }}</td>
-                <td>{{ task.task }}</td>
-                <td>{{ task.dueDate |format_date() }}</td>
-                <td>{{ task.completed ? '&#9989;' : 'No'}}</td>
-                <td>
-                    {# <a href="{{ path('task_show', {'id': task.id}) }}">show</a> #}
-                    
-                    <a class="btn btn-warning" href="{{ path('task_edit', {'id': task.id}) }}">edit &#9997;</a>
-                    
-                    {# <a class="btn btn-danger" href="{{ path('task_delete', {'id': task.id}) }}">delete &#10060;</a> #}
-                </td>
+        {% for task in completed %}
+            <tr id="results_list">
+            <form id="form" action="{{ path('task_edit', {'id': task.id}) }}">
+                    {# <td>{{ task.id }}</td> #}
+                    <td><input type="text" id="search" class="form-control input-lg" value="{{ task.task }}"></td>
+                    <td><input type="text" id="search" class="form-control input-lg datepicker" value="{{ task.dueDate | date('m/d/Y')}}"></td>
+                    <td>{{ task.completed ? '<input type="checkbox" checked></input>' : '<input type="checkbox"></input>'}}</td>
+                    <td>
+                        {# <a href="{{ path('task_show', {'id': task.id}) }}">show</a> #}
+                        
+                        <span>
+                        <a class="btn btn-primary submitForm" href="{{ path('task_edit', {'id': task.id}) }}">Update &#9997;</a>
+                        
+                        <a class="btn btn-danger submitForm" href="{{ path('task_delete', {'id': task.id}) }}"> &#10060;</a>
+                        </span>
+                    </td>
             </tr>
+            {# {% endif %} #}
         {% else %}
             <tr>
                 <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
-    </table>
-    <a class="btn btn-primary btn-block" href="{{ path('task_new') }}">Create new</a>
+    </table>    
+</div>
 
 {% endblock %}

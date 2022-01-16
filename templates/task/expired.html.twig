@@ -4,7 +4,7 @@
 
 {% block body %}
 <div id="content">
-    <h1> tasks for today </h1>
+    <h1> expired tasks </h1>
     <hr>
     <table class="table">
         <thead>
@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for task in tasks %}
+        {% for task in expired %}
             <tr id="results_list">
             <form id="form" action="{{ path('task_edit', {'id': task.id}) }}">
                     {# <td>{{ task.id }}</td> #}
@@ -51,7 +51,7 @@
                             <div class="panel-body">
                                 <ul class="list-group">
                                     <li class="list-group-item list-group-warning">
-                                    {# {% for task in tasks %}
+                                    {% for task in tasks %}
                                         <p><b><a href="#">{{task.task}}</a></b></p>
                                         <p>
                                             <a href="#">{{task.dueDate | date()}}</a>
@@ -60,7 +60,7 @@
                                         </p> 
                                     {% else %}
                                        <p><b colspan="6">no records found</b></p>
-                                    {% endfor %} #}
+                                    {% endfor %}
                                     </li>
                                 </ul>
                             </div>

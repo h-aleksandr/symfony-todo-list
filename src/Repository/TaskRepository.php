@@ -22,10 +22,6 @@ class TaskRepository extends ServiceEntityRepository
 
      public function findByDate($value)
     {        
-        // $date = (int)$value->format("Y-m-d H:i:s");
-        // $from = $value->setTime($date, 00, 00, 00);//->format('Y-m-d H:i:s');
-        // $to   = $value->setTime($date, 23, 59, 59);//->format('Y-m-d H:i:s');
-
         $from = \DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d 00:00:00"));
         $to = \DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d 23:59:59"));
 

@@ -14,228 +14,214 @@
         {% endblock %}
 
     </head>
-    <body id="bd">
-    {% block navbar %}
-        <nav class="navbar navbar-default navbar-inverse" role="navigation">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand active" href="{{path('home')}}">TODO List</a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        {# <li><a href="#">SOME</a></li> #}
-                        {# <li><a href="#">SOME</a></li> #}
-                       <li class="dropdown">
-                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <span class="caret"></span></a>
-                           <ul class="dropdown-menu" role="menu">
-                               <li><a href="{{path('task_all')}}">ALL</a></li>
-                               <li class="divider"></li>
-                               <li><a href="{{path('task_completed')}}">COMPLETED</a></li>
-                               <li class="divider"></li>
-                               <li><a href="{{path('task_uncompleted')}}">UNCOMBLETED</a></li>
-                               <li class="divider"></li>
-                           </ul>
-                       </li>
-                    </ul>
-                    {# <ul class="nav navbar-nav navbar-right">
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <span><a href="{{ path('admin') }}">{{ 'header.admin.panel' | trans }}</a> </span>
-                        {% endif %}
-                        {% if is_granted('ROLE_USER') %}
-                        <span>{{ app.user.email }}</span>
-                        {% endif %}
-                    </ul> #}
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
-    {% endblock %}
-
-    {% block container %}
-            <div class="container">
-                <div class="row">
-
-                        <div class="col-lg-9 col-lg-push-3">
-    {# <h4> time the page was loaded: {{today | date('Y-m-d H:i:s')}} </h4> #}
-             <button class="content_toggle btn-block" href="#">Add task</button>
-                    <div class="content_block" style="display: none;">
-                        
-                        {{ render(path('task_new')) }}
-                        
-                        <div class="danger" id="errorForm">
-                            
-                        </div>
+    <body>
+        <div id="wrapper">
+            <nav class="navbar navbar-default navbar-inverse" role="navigation">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand active" href="{{path('home')}}">TODO List</a>
                     </div>
-                <hr>
 
-{% block body %}
-
-{% endblock %}
-                        </div>
-
-                        <div class="col-lg-3 col-lg-pull-9">
-     <div class="panel panel-info hidden-xs">
-                            <div class="panel-heading"><div class="sidebar-header"><h3>Search</h3></div></div>
-                            <div class="panel-body">
-                                <form id="form" action="{{ path('task_search') }}">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <input name="date" type="text" id="search_field" class="datepicker form-control input-lg" placeholder="">
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-default btn-lg" type="submit"><i class="glyphicon glyphicon-search submitSearch"></i></button>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            {# <li><a href="#">SOME</a></li> #}
+                            {# <li><a href="#">SOME</a></li> #}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <span class="caret"></span></a>
+                            <ul id="nav" class="dropdown-menu" role="menu">
+                                <li><a href="{{path('task_all')}}">ALL</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{path('task_completed')}}">COMPLETED</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{path('task_uncompleted')}}">UNCOMBLETED</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{path('task_expired')}}">EXPIRED</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{path('home')}}">TODAY</a></li>
+                                <li class="divider"></li>
+                            </ul>
+                        </li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-lg-push-3">
+        {# <h4> time the page was loaded: {{today | date('Y-m-d H:i:s')}} </h4> #}
+                <button class="content_toggle btn-block" href="#">Add task</button>
+                        <div class="content_block" style="display: none;">
+                            
+                            {{ render(path('task_new')) }}
+                            
+                            <div class="danger" id="errorForm">
+                                
                             </div>
                         </div>
+                    <hr>
 
-    
-   {% block panel %}
+    {% block body %}
 
-   {% endblock %}
-                    </div>
-                </div>
-
-
-
-
-                
-                <script>
-                            ////////////////////////////////////
-                                ////////////////////////////
-                                    ////////////////////
-                                        ///////////
-                    
-                $(".datepicker").datepicker();
-
-                getTasks();
-                contentToggle();
-        
-                $('.submitForm').click(function(e) {
-                    e.preventDefault();
-
-                    setTimeout(function(){$(form).trigger('reset')});
-                    submitFormAjax($(this).parent('form'), redirect, errorMessage);
-
-                        
-                    console.log($(form).attr('action'));
-                    console.log($(form).serialize());
-                });
-
-                $('.submitSearsh').click(function(e) {
-                    e.preventDefault();
-
-                    setTimeout(function(){$(form).trigger('reset')});
-                    serchTaskAjax($(this).parent('form'), redirect, errorMessage);
-
-                    console.log($(form).attr('action'));
-                    console.log($(form).serialize());
-                });
-            
-
-                function getTasks() {
-                     $.ajax({
-                        method: "GET",
-                        url: "{{ path('home') }}",
-                        cache: false,
-                        dataType: 'json',
-                        ajax: true,
-                        success: function (data) {
-                        console.log(data);
-                        },
-                        error: function(data) {
-                            console.log("error result: " + data);
-                        }                       
-                    });
-                }
-                
-                function contentToggle() {
-                    $('.content_toggle').click(function(){
-                    $('.content_block').slideToggle(300, function(){
-                        if ($(this).is(':hidden')) {
-                            $('.content_toggle').html('Add task');
-                        } else {
-                            $('.content_toggle').html('Hide form');
-                        }							
-                    });
-                    return false;
-                 });
-                }
-
-                function redirect(response) {
-                    if(response.url !== undefined) {
-                        window.location.href = response.url;
-                    }
-                }
-
-                function errorMessage() {
-                    alert('Somethig is wrong...');
-                    //$('#errorForm').append('<p class="alert alert-danger" id="errorForm" role="alert">Somethig is wrong...</p>');
-                }
-
-                function submitFormAjax(form, successCallback, errorCallback){
-                    if(form[0] === undefined) {
-                        return;
-                    } 
-                    if($(form)) {
-                         $.ajax({
-                            method: "POST",
-                            url:$(form).attr('action'),
-                            data: $(form).serialize(),
-                            cache: false,
-                            dataType: 'json',
-                            ajax: true,
-                            beforeSend: function() {
-                                $('.submitForm').button('loading');
-                            },
-                            complete: function() {
-                                $('.submitForm').button('reset');
-                            },
-                            success: successCallback,    
-                            error: errorCallback,
-                       
-                        });
-                    }
-                }           
-
-                 function serchTaskAjax(form, successCallback, errorCallback){
-                    if(form[0] === undefined) {
-                        return;
-                    } 
-                     $(".submitSearch").click(function() {
-                    var searchTask = $("#search_field").val();
-                    var data = 'search=' + searchString;
-
-                    if(searchTask) {
-                        $.ajax({
-                            type: "POST",
-                            url: "{{ path('task_search')}}",
-                            data: data,
-                           beforeSend: function() {
-                                $('.submitForm').button('loading');
-                            },
-                            complete: function() {
-                                $('.submitForm').button('reset');
-                            },
-                            success: successCallback,
-                            error: errorCallback,
-                        });
-                    }
-                    return false;
-                    });
-                }                         
-                </script>
     {% endblock %}
+                    </div>
+
+                            <div class="col-lg-3 col-lg-pull-9">
+        <div class="panel panel-info hidden-xs">
+            <div class="panel-heading"><div class="sidebar-header"><h3>Search</h3></div></div>
+            <div class="panel-body">
+                <form id="form" action="{{path('task_search')}}">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input name="date" type="text" id="search" class="datepicker form-control input-lg" placeholder="">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default btn-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+       <div id="load_process"></div>
+
+        
+    {% block panel %}
+
+    {% endblock %}
+            </div>
+        </div>
+    </div>
+
+                    <!-- THIS BLOCK SCRIPT MUST BE MOVE TO APP.JS!!!-->         
+<script>
+                    
+//$(document).ready(function() {
+
+    $(".datepicker").datepicker();
+
+    contentToggle();
+
+    let hash = window.location.hash.substr(1);
+    let href = $('#nav li a').each(function(){
+        let href = $(this).attr('href');
+        if(hash==href.substr(0,href.length-5)){
+            let toLoad = hash+'.html #content';
+            $('#content').load(toLoad)
+        } 
+    });
+
+    $('#nav li a').click(function(){ 
+        let toLoad = $(this).attr('href')+' #content';
+        $('#content').hide('slow',loadContent);
+        function loadContent() {
+            $('#content').load(toLoad,'',showNewContent)
+        }
+        function showNewContent() {
+            $('#content').show('normal',hideLoader);
+        }
+        function hideLoader() {
+            $('#load').fadeOut('normal');
+        }
+        return false;
+
+    });
+
+    $('.submitForm').click(function(e) {
+        e.preventDefault();
+
+        setTimeout(function(){$(form).trigger('reset')});
+        submitFormAjax($(this).parent('form'), redirect, errorMessage);
+
+            
+        console.log($(form).attr('action'));
+        console.log($(form).serialize());
+    });
+
+    function contentToggle() {
+        $('.content_toggle').click(function(){
+        $('.content_block').slideToggle(300, function(){
+            if ($(this).is(':hidden')) {
+                $('.content_toggle').html('Add task');
+            } else {
+                $('.content_toggle').html('Hide form');
+            }							
+        });
+        return false;
+        });
+    }
+
+    function redirect(response) {
+        if(response.url !== undefined) {
+            window.location.href = response.url;
+        }
+    }
+
+    function errorMessage() {
+        alert('Somethig is wrong...');
+        //$('#errorForm').append('<p class="alert alert-danger" id="errorForm" role="alert">Somethig is wrong...</p>');
+    }
+
+    function submitFormAjax(form, successCallback, errorCallback){
+        if(form[0] === undefined) {
+            return;
+        } 
+        if($(form)) {
+                $.ajax({
+                method: "POST",
+                url:$(form).attr('action'),
+                data: $(form).serialize(),
+                cache: false,
+                dataType: 'json',
+                ajax: true,
+                beforeSend: function() {
+                    $('.submitForm').button('loading');
+                },
+                complete: function() {
+                    $('.submitForm').button('reset');
+                },
+                success: successCallback,    
+                error: errorCallback,
+            
+            });
+        }
+    }           
+
+        function serchTaskAjax(form, successCallback, errorCallback){
+        if(form[0] === undefined) {
+            return;
+        } 
+            $(".submitSearch").click(function() {
+        var searchTask = $("#search_field").val();
+        var data = 'search=' + searchString;
+
+        if(searchTask) {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('task_search')}}",
+                data: data,
+                beforeSend: function() {
+                    $('.submitForm').button('loading');
+                },
+                complete: function() {
+                    $('.submitForm').button('reset');
+                },
+                success: successCallback,
+                error: errorCallback,
+            });
+        }
+        return false;
+        });
+    }      
+//});                   
+</script>
 
     {% block javascripts %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

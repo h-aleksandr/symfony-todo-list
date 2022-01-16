@@ -18,26 +18,17 @@ class TaskController extends AbstractController
 {
     #[Route('/', name: 'task_all', methods: ['GET', 'POST'])]
     public function showAllTasks(TaskRepository $taskRepository): Response
-    {
-        $today = new \DateTime();
-        //  return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findAll(),]
-    // );
-        return $this->render('home/index.html.twig', [
+    {        
+        return $this->render('task/show_all_tasks.html.twig', [
             'tasks' => $taskRepository->findAll(),
-            // 'tasks' => $taskRepository->findByDate($today),
-            'title' => 'all tasks',
         ]);
     }
 
-    #[Route('/', name: 'task_expired', methods: ['GET', 'POST'])]
+    #[Route('/expired', name: 'task_expired', methods: ['GET', 'POST'])]
     public function expired(TaskRepository $taskRepository): Response
     {
-        $today = new \DateTime('today');
-
-        // return new JsonResponse(['url' => $this->generateUrl('home'), 'expired' => $taskRepository->findExpired($today),]);
-        return $this->render('home/index.html.twig', [
-             'expired' => $taskRepository->findExpired($date),
-            'title' => 'task expired',
+        return $this->render('task/expired.html.twig', [
+             'expired' => $taskRepository->findExpired(new \DateTime()),
         ] );
     }
 
@@ -45,8 +36,7 @@ class TaskController extends AbstractController
     public function completed(TaskRepository $taskRepository): Response
     {   
         return $this->render('task/completed.html.twig', [
-            'tasks_completed' => $taskRepository->findBy(['completed' => true]),
-            'title' => 'task completed',
+            'completed' => $taskRepository->findBy(['completed' => true]),
         ]);
     }
 
@@ -54,9 +44,7 @@ class TaskController extends AbstractController
     public function uncompleted(TaskRepository $taskRepository): Response
     {   
         return $this->render('task/uncompleted.html.twig', [
-            'tasks_uncompleted' => $taskRepository->findBy(['completed' => false]),
-            'title' => 'task uncompleted',
-            
+            'uncompleted' => $taskRepository->findBy(['completed' => false]),            
         ]);
     }
 
@@ -117,6 +105,24 @@ class TaskController extends AbstractController
         }
 
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+    }
+
+      #[Route('/search', name: 'task_search', methods: ['GET', 'POST'])]
+    public function searchByDate(Request $request, TaskRepository $taskRepository): Response
+    {
+        if ($request){
+                $searched = $taskRepository->findByDate(new \DateTime($request->getContent()));
+                
+        }
+            $searched = 'Noting was found';
+
+            // return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findByDate(new \DateTime($request->getContent())),]
+    // );
+
+        return $this->render('task/searched.html.twig', [
+                'searched' => $searched,
+                'title' => 'Searched task',
+        ]);
     }
  
 

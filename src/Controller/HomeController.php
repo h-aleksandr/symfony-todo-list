@@ -18,28 +18,18 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home', methods: ['GET', 'POST'])]
     public function showTodayTasks(TaskRepository $taskRepository): Response
     {
-    //      return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findByDate(new \DateTime()),]
+    //      return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findByDate(new \DateTime()), 'title' => 'task today']
     // );
         return $this->render('home/index.html.twig', [
-            // 'tasks' => $taskRepository->findAll(),
             'tasks' => $taskRepository->findByDate(new \DateTime()),
             'title' => 'task today',
-            'today' => new \DateTime(),
         ]);
     }
 
     #[Route('/', name: 'base', methods: ['GET', 'POST'])]
     public function baseRender(TaskRepository $taskRepository): Response
     {
-    //      return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findByDate(new \DateTime()),]
-    // );
-        return $this->render('base.html.twig', [
-            // 'tasks' => $taskRepository->findAll(),
-            'today' => new \DateTime(),
-            'title' => 'task today',
-            'tasks' => $taskRepository->findByDate(new \DateTime()),
-            'expired' => $taskRepository->findExpired($date),
-        ]);
+        return $this->render('base.html.twig', [ ]);
     }
   
 }
