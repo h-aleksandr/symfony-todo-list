@@ -110,18 +110,14 @@ class TaskController extends AbstractController
       #[Route('/search', name: 'task_search', methods: ['GET', 'POST'])]
     public function searchByDate(Request $request, TaskRepository $taskRepository): Response
     {
-        if ($request){
-                $searched = $taskRepository->findByDate(new \DateTime($request->getContent()));
-                
-        }
-            $searched = 'Noting was found';
+        if ($request->get('date')){
+            $date = $request->get('date');
+            $tasks = $taskRepository->findByDate(new \DateTime($date));
 
-            // return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findByDate(new \DateTime($request->getContent())),]
-    // );
+            return new JsonResponse(['url' => $this->generateUrl('home'), $searched]);
+        }
 
         return $this->render('task/searched.html.twig', [
-                'searched' => $searched,
-                'title' => 'Searched task',
         ]);
     }
  

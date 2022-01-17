@@ -22,14 +22,14 @@ class HomeController extends AbstractController
     // );
         return $this->render('home/index.html.twig', [
             'tasks' => $taskRepository->findByDate(new \DateTime()),
-            'title' => 'task today',
+            'expired' => $taskRepository->findExpired(new \DateTime()),
         ]);
     }
 
     #[Route('/', name: 'base', methods: ['GET', 'POST'])]
     public function baseRender(TaskRepository $taskRepository): Response
     {
-        return $this->render('base.html.twig', [ ]);
+        return $this->render('base.html.twig', []);
     }
   
 }

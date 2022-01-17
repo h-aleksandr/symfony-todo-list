@@ -19,7 +19,6 @@
         <tbody>
         {% for task in tasks %}
             <tr id="results_list">
-            <form id="form" action="{{ path('task_edit', {'id': task.id}) }}">
                     {# <td>{{ task.id }}</td> #}
                     <td><input type="text" id="search" class="form-control input-lg" value="{{ task.task }}"></td>
                     <td><input type="text" id="search" class="form-control input-lg datepicker" value="{{ task.dueDate | date('m/d/Y')}}"></td>
@@ -43,24 +42,44 @@
         </tbody>
     </table>
 </div>
-{% endblock %}
 
-{% block panel %}
+
+ </div>
+
+    <div class="col-lg-3 col-lg-pull-9">
+        <div class="panel panel-info hidden-xs">
+            <div class="panel-heading"><div class="sidebar-header"><h3>Search</h3></div></div>
+            <div class="panel-body">
+                <form>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input name="date" type="text" class="datepicker form-control input-lg" placeholder="search by date">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default btn-lg" type="submit"><i class="glyphicon glyphicon-search submitSearch"></i></button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
      <div class="panel panel-info">
                             <div class="panel-heading"><div class="sidebar-header"><h3>Expired</h3></div></div>
                             <div class="panel-body">
                                 <ul class="list-group">
                                     <li class="list-group-item list-group-warning">
-                                    {# {% for task in tasks %}
+                                    {% for task in expired %}
                                         <p><b><a href="#">{{task.task}}</a></b></p>
                                         <p>
                                             <a href="#">{{task.dueDate | date()}}</a>
                                         </p>                                       
-                                                <a class="btn btn-warning btn-block" href="{{ path('task_edit', {'id': task.id}) }}">edit</a>
+                                                {# <a class="btn btn-warning btn-block" href="{{ path('task_edit', {'id': task.id}) }}">edit</a> #}
                                         </p> 
+                                        <hr>
                                     {% else %}
                                        <p><b colspan="6">no records found</b></p>
-                                    {% endfor %} #}
+                                    {% endfor %}
                                     </li>
                                 </ul>
                             </div>
@@ -69,4 +88,6 @@
                         </div>
 
                     </div>
+
+
 {% endblock %}

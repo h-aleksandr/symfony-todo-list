@@ -71,31 +71,9 @@
     {% block body %}
 
     {% endblock %}
-                    </div>
+                   
 
-                            <div class="col-lg-3 col-lg-pull-9">
-        <div class="panel panel-info hidden-xs">
-            <div class="panel-heading"><div class="sidebar-header"><h3>Search</h3></div></div>
-            <div class="panel-body">
-                <form id="form" action="{{path('task_search')}}">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input name="date" type="text" id="search" class="datepicker form-control input-lg" placeholder="">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default btn-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-       <div id="load_process"></div>
-
-        
-    {% block panel %}
-
-    {% endblock %}
+    
             </div>
         </div>
     </div>
@@ -139,11 +117,15 @@
 
         setTimeout(function(){$(form).trigger('reset')});
         submitFormAjax($(this).parent('form'), redirect, errorMessage);
-
-            
-        console.log($(form).attr('action'));
-        console.log($(form).serialize());
     });
+
+     $(".submitSearch").on('keyup', function(e) {
+            e.preventDefault();
+
+            setTimeout(function(){$(form).trigger('reset')});
+            searchTaskAjax($(this).parent('form'), redirect, errorMessage);            
+        }); 
+
 
     function contentToggle() {
         $('.content_toggle').click(function(){
@@ -194,32 +176,25 @@
         }
     }           
 
-        function serchTaskAjax(form, successCallback, errorCallback){
-        if(form[0] === undefined) {
-            return;
-        } 
-            $(".submitSearch").click(function() {
-        var searchTask = $("#search_field").val();
-        var data = 'search=' + searchString;
-
-        if(searchTask) {
-            $.ajax({
-                type: "POST",
-                url: "{{ path('task_search')}}",
-                data: data,
-                beforeSend: function() {
-                    $('.submitForm').button('loading');
-                },
-                complete: function() {
-                    $('.submitForm').button('reset');
-                },
-                success: successCallback,
-                error: errorCallback,
-            });
-        }
-        return false;
-        });
-    }      
+        function searchTaskAjax(form, successCallback, errorCallback){
+                let searchTask = $(form).serialize();
+                if(searchTask) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ path('task_search') }}",
+                        data: {
+                            'date': searchTask,
+                        },
+                        dataType: 'json',
+                        cache: false,
+                        success: function(response){
+                            $('#content').replaceWith(response)
+                            console.log(response);       
+                     }
+                    });
+                }
+                return false;
+        }    
 //});                   
 </script>
 
