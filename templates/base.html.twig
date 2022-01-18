@@ -115,14 +115,23 @@
     $('.submitForm').click(function(e) {
         e.preventDefault();
 
-        setTimeout(function(){$(form).trigger('reset')});
+        $('.submitForm').trigger('reset');
         submitFormAjax($(this).parent('form'), redirect, errorMessage);
+        console.log('submited');
+    });
+
+    $('.updateForm').on('keyup', function(e) {
+        e.preventDefault();
+
+        $('.updsateForm').trigger('reset');
+        updateFormAjax($(this).parent('form'), redirect, errorMessage);
+        console.log('submited');
     });
 
      $(".submitSearch").on('keyup', function(e) {
             e.preventDefault();
 
-            setTimeout(function(){$(form).trigger('reset')});
+            $('.submitSearch').trigger('reset');
             searchTaskAjax($(this).parent('form'), redirect, errorMessage);            
         }); 
 
@@ -188,13 +197,56 @@
                         dataType: 'json',
                         cache: false,
                         success: function(response){
-                            $('#content').replaceWith(response)
-                            console.log(response);       
-                     }
+                          //  $('#content').replaceWith(response)// .....
+                            
+                            let obj = jQuery.parseJSON(response);
+                            let json = $.parseJSON(response);
+                            $(json).each(function(i,val){
+                                    $.each(val,function(k,v) {
+                                    console.log(k+" : "+ v);    
+                                    });
+                                });    
+                        },
+                        error: function() {
+                            alert('EEERROR');
+                        }
                     });
                 }
                 return false;
         }    
+
+        function updateFormAjax(form, successCallback, errorCallback){
+            let controller = $('.updateForm').attr('href');
+            let id =  $('#id');
+            let task = $('#task');
+            let dueDate = $('#due_date');
+            let completed = $('#completed');
+
+                $.ajax({
+                method: "POST",
+                url: controller,
+                data: {
+                    'id': id,
+                    'task': task,
+                    'dueDate': dueDate,
+                    'completed': completed
+                },
+                cache: false,
+                dataType: 'json',
+                ajax: true,
+                beforeSend: function() {
+                    $('.updateForm').button('loading');
+                },
+                complete: function() {
+                    $('.updateForm').button('reset');
+                },
+                success: successCallback,    
+                error: errorCallback,
+            
+            });
+        }
+
+        
 //});                   
 </script>
 

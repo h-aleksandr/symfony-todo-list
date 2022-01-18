@@ -87,7 +87,7 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+             return new JsonResponse(['url' => $this->generateUrl('home'),]);
         }
 
         return $this->renderForm('task/edit.html.twig', [
@@ -114,7 +114,7 @@ class TaskController extends AbstractController
             $date = $request->get('date');
             $tasks = $taskRepository->findByDate(new \DateTime($date));
 
-            return new JsonResponse(['url' => $this->generateUrl('home'), $searched]);
+            return new JsonResponse(['url' => $this->generateUrl('home'), json_encode($searched)]);
         }
 
         return $this->render('task/searched.html.twig', [

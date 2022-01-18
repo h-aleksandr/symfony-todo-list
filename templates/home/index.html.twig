@@ -17,21 +17,23 @@
             </tr>
         </thead>
         <tbody>
-        {% for task in tasks %}
+        {% for task in tasks_today %}
             <tr id="results_list">
+                <form id="form">
                     {# <td>{{ task.id }}</td> #}
-                    <td><input type="text" id="search" class="form-control input-lg" value="{{ task.task }}"></td>
-                    <td><input type="text" id="search" class="form-control input-lg datepicker" value="{{ task.dueDate | date('m/d/Y')}}"></td>
-                    <td>{{ task.completed ? '<input type="checkbox" checked></input>' : '<input type="checkbox"></input>'}}</td>
+                    <td><input id="task" type="text" id="search" class="form-control input-lg" value="{{ task.task }}"></td>
+                    <td><input id="due_date" type="text" id="search" class="form-control input-lg datepicker" value="{{ task.dueDate | date('m/d/Y')}}"></td>
+                    <td><span id="completed" >{{ task.completed ? '<input type="checkbox" checked></input>' : '<input type="checkbox"></input>'}}</span></td>
                     <td>
                         {# <a href="{{ path('task_show', {'id': task.id}) }}">show</a> #}
                         
                         <span>
-                        <a class="btn btn-primary submitForm" href="{{ path('task_edit', {'id': task.id}) }}">Update &#9997;</a>
+                        <a id="updateForm" class="btn btn-primary" href="{{ path('task_edit', {'id': task.id}) }}">Update &#9997;</a>
                         
-                        <a class="btn btn-danger submitForm" href="{{ path('task_delete', {'id': task.id}) }}"> &#10060;</a>
+                        <a class="btn btn-danger" href="{{ path('task_delete', {'id': task.id}) }}"> &#10060;</a>
                         </span>
                     </td>
+                </form>
             </tr>
             {# {% endif %} #}
         {% else %}
@@ -64,7 +66,9 @@
             </div>
         </div>
 
-     <div class="panel panel-info">
+        <div id="load"></div>
+
+     <div class="panel panel-danger">
                             <div class="panel-heading"><div class="sidebar-header"><h3>Expired</h3></div></div>
                             <div class="panel-body">
                                 <ul class="list-group">

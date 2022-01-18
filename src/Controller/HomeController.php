@@ -21,7 +21,7 @@ class HomeController extends AbstractController
     //      return new JsonResponse(['url' => $this->generateUrl('home'), 'tasks' => $taskRepository->findByDate(new \DateTime()), 'title' => 'task today']
     // );
         return $this->render('home/index.html.twig', [
-            'tasks' => $taskRepository->findByDate(new \DateTime()),
+            'tasks_today' => $taskRepository->findByDate(new \DateTime()),
             'expired' => $taskRepository->findExpired(new \DateTime()),
         ]);
     }

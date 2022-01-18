@@ -42,6 +42,7 @@ class TaskRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.dueDate < :val')
+            ->andWhere('t.completed = false')
             ->setParameter('val', $value)
             // ->orderBy('t.id', 'ASC')
             ->setMaxResults(30)
